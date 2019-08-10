@@ -1,4 +1,4 @@
-package org.uhafactory.travle.mileage
+package org.uhafactory.travle
 
 import org.slf4j.LoggerFactory
 

@@ -1,6 +1,6 @@
-package org.uhafactory.travle.mileage.review.calculator
+package org.uhafactory.travle.mileage.event.calculator
 
-import org.uhafactory.travle.mileage.review.MileageEvent
+import org.uhafactory.travle.mileage.event.MileageEvent
 
 interface CalculatorRule {
     fun canApply(event: MileageEvent): Boolean

@@ -1,4 +1,4 @@
-package org.uhafactory.travle.mileage
+package org.uhafactory.travle
 
 import org.junit.Test
 import org.junit.runner.RunWith

@@ -1,4 +1,4 @@
-package org.uhafactory.travle.mileage.review.calculator
+package org.uhafactory.travle.mileage.event.calculator
 
 class CalculatedResult(private val points: List<Point>) {
     fun totalPoint(): Int{

@@ -1,4 +1,4 @@
-package org.uhafactory.travle.mileage
+package org.uhafactory.travle
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

@@ -1,4 +1,4 @@
-package org.uhafactory.travle.mileage.review.calculator
+package org.uhafactory.travle.mileage.event.calculator
 
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
@@ -8,9 +8,9 @@ import org.mockito.BDDMockito.given
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
-import org.uhafactory.travle.mileage.review.Action
-import org.uhafactory.travle.mileage.review.MileageEvent
-import org.uhafactory.travle.mileage.review.MileageRepository
+import org.uhafactory.travle.mileage.event.Action
+import org.uhafactory.travle.mileage.event.MileageEvent
+import org.uhafactory.travle.mileage.MileageRepository
 
 @ExtendWith(MockitoExtension::class)
 internal class MileageRuleAddTest {
@@ -21,9 +21,16 @@ internal class MileageRuleAddTest {
     private lateinit var mileageRepository: MileageRepository
 
     @Test
+    fun testCanApply() {
+        assertThat(rule.canApply(MileageEvent.Builder()
+                .action(Action.MOD).build())).isEqualTo(false)
+        assertThat(rule.canApply(MileageEvent.Builder()
+                .action(Action.ADD).build())).isEqualTo(true)
+    }
+
+    @Test
     fun calculate_content_photo() {
         val event = MileageEvent.Builder()
-                .action(Action.ADD)
                 .content("co")
                 .attachedPhotoIds(listOf("1"))
                 .build()
@@ -38,7 +45,6 @@ internal class MileageRuleAddTest {
     @Test
     fun calculate_content() {
         val event = MileageEvent.Builder()
-                .action(Action.ADD)
                 .content("co")
                 .attachedPhotoIds(null)
                 .build()
@@ -53,7 +59,6 @@ internal class MileageRuleAddTest {
     fun calculate_fistReview() {
         val placeId = "place"
         val event = MileageEvent.Builder()
-                .action(Action.ADD)
                 .placeId(placeId)
                 .build()
 

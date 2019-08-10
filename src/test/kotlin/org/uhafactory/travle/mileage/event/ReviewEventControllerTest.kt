@@ -1,4 +1,4 @@
-package org.uhafactory.travle.mileage.review
+package org.uhafactory.travle.mileage.event
 
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -7,7 +7,7 @@ import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.http.MediaType
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.web.reactive.function.BodyInserters
-import org.uhafactory.travle.mileage.RouterConfiguration
+import org.uhafactory.travle.RouterConfiguration
 
 @ExtendWith(MockitoExtension::class)
 internal class ReviewEventControllerTest {

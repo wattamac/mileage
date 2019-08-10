@@ -1,4 +1,4 @@
-package org.uhafactory.travle.mileage.review
+package org.uhafactory.travle.mileage
 
 import org.springframework.stereotype.Repository
 

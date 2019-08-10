@@ -1,11 +1,11 @@
-package org.uhafactory.travle.mileage.review
+package org.uhafactory.travle.mileage.event
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
-import org.uhafactory.travle.mileage.review.calculator.MileageCalculator
+import org.uhafactory.travle.mileage.event.calculator.MileageCalculator
 
 @ExtendWith(MockitoExtension::class)
 internal class MileageServiceTest {

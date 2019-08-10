@@ -1,10 +1,10 @@
-package org.uhafactory.travle.mileage.review
+package org.uhafactory.travle.mileage.event
 
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
-import org.uhafactory.travle.mileage.Log
+import org.uhafactory.travle.Log
 import reactor.core.publisher.Mono
 
 @Component

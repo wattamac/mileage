@@ -1,13 +1,13 @@
-package org.uhafactory.travle.mileage.review.calculator
+package org.uhafactory.travle.mileage.event.calculator
 
 import org.springframework.stereotype.Component
-import org.uhafactory.travle.mileage.review.MileageEvent
+import org.uhafactory.travle.mileage.event.MileageEvent
 import kotlin.streams.toList
 
 @Component
-class MileageCalculator {
-
-    private lateinit var rules: List<CalculatorRule>
+class MileageCalculator(
+        val rules: List<CalculatorRule>
+) {
 
     fun calculate(event: MileageEvent): CalculatedResult {
 
