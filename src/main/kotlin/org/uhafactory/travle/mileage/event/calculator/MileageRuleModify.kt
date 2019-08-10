@@ -4,17 +4,18 @@ import org.springframework.stereotype.Component
 import org.springframework.util.CollectionUtils
 import org.uhafactory.travle.mileage.event.Action
 import org.uhafactory.travle.mileage.event.MileageEvent
-import org.uhafactory.travle.mileage.event.MileageEventHistoryRepository
+import org.uhafactory.travle.mileage.event.MileageEventHistoryService
 
 @Component
 class MileageRuleModify(
-        private val mileageEventHistoryRepository: MileageEventHistoryRepository
+        private val mileageEventHistoryService: MileageEventHistoryService
 ) : CalculatorRule {
     override fun canApply(event: MileageEvent) = Action.MOD == event.action
 
 
     override fun calculate(event: MileageEvent): List<Point> {
-        val accumulatedTypes = getPreviousMileage(event.reviewId)
+        val accumulatedTypes = mileageEventHistoryService.getPointsByReviewId(
+                setOf(RuleType.CONTENT, RuleType.PHOTO), event.reviewId).keys
         if (isDeletePhoto(event, accumulatedTypes)) {
             return listOf(Point(RuleType.PHOTO, -1))
         }
@@ -31,14 +32,5 @@ class MileageRuleModify(
     private fun isDeletePhoto(event: MileageEvent, accumulatedTypes: Set<RuleType>): Boolean {
         return CollectionUtils.isEmpty(event.attachedPhotoIds)
                 && accumulatedTypes.containsAll(setOf(RuleType.CONTENT, RuleType.PHOTO))
-    }
-
-    private fun getPreviousMileage(reviewId: String): Set<RuleType> {
-        val histories = mileageEventHistoryRepository.findByInRuleTypeAndTargetId(listOf(RuleType.CONTENT, RuleType.PHOTO), reviewId)
-
-        return histories.groupingBy { it.ruleType }
-                .fold(0) { sum, element -> sum + element.point }
-                .filter { it.value != 0 }
-                .keys
     }
 }

@@ -5,7 +5,7 @@ import org.uhafactory.travle.mileage.event.calculator.RuleType
 
 @Repository
 class MileageEventHistoryRepository {
-    fun findByInRuleTypeAndTargetId(ruleTypes: List<RuleType>, targetId: String): List<MileageEventHistory> {
+    fun findByInRuleTypeAndReviewId(ruleTypes: Set<RuleType>, reviewId: String): List<MileageEventHistory> {
         return listOf()
     }
 }

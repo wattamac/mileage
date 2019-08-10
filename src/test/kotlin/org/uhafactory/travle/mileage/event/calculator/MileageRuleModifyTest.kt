@@ -7,10 +7,7 @@ import org.mockito.BDDMockito.given
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
-import org.uhafactory.travle.mileage.event.Action
-import org.uhafactory.travle.mileage.event.MileageEvent
-import org.uhafactory.travle.mileage.event.MileageEventHistory
-import org.uhafactory.travle.mileage.event.MileageEventHistoryRepository
+import org.uhafactory.travle.mileage.event.*
 
 @ExtendWith(MockitoExtension::class)
 internal class MileageRuleModifyTest {
@@ -18,7 +15,7 @@ internal class MileageRuleModifyTest {
     private lateinit var mileageRule: MileageRuleModify
 
     @Mock
-    private lateinit var repository: MileageEventHistoryRepository
+    private lateinit var mileageEventHistoryService: MileageEventHistoryService
 
     @Test
     fun testCanApply() {
@@ -35,8 +32,8 @@ internal class MileageRuleModifyTest {
                 .reviewId("reviewId")
                 .build()
 
-        val histories = listOf(MileageEventHistory.Builder().ruleType(RuleType.CONTENT).point(1).build())
-        given(repository.findByInRuleTypeAndTargetId(listOf(RuleType.CONTENT, RuleType.PHOTO), event.reviewId)).willReturn(histories)
+        val histories = mapOf(Pair(RuleType.CONTENT, 1))
+        given(mileageEventHistoryService.getPointsByReviewId(setOf(RuleType.CONTENT, RuleType.PHOTO), event.reviewId)).willReturn(histories)
         val points = mileageRule.calculate(event)
 
         assertThat(points[0].type).isEqualTo(RuleType.PHOTO)
@@ -49,11 +46,8 @@ internal class MileageRuleModifyTest {
                 .reviewId("reviewId")
                 .build()
 
-        val histories = listOf(
-                MileageEventHistory.Builder().ruleType(RuleType.PHOTO).point(1).build(),
-                MileageEventHistory.Builder().ruleType(RuleType.CONTENT).point(1).build()
-        )
-        given(repository.findByInRuleTypeAndTargetId(listOf(RuleType.CONTENT, RuleType.PHOTO), event.reviewId)).willReturn(histories)
+        val histories = mapOf(Pair(RuleType.CONTENT, 1), Pair(RuleType.PHOTO, 1))
+        given(mileageEventHistoryService.getPointsByReviewId(setOf(RuleType.CONTENT, RuleType.PHOTO), event.reviewId)).willReturn(histories)
         val points = mileageRule.calculate(event)
 
         assertThat(points[0].type).isEqualTo(RuleType.PHOTO)
@@ -67,10 +61,8 @@ internal class MileageRuleModifyTest {
                 .attachedPhotoIds(null)
                 .build()
 
-        val histories = listOf(
-                MileageEventHistory.Builder().ruleType(RuleType.CONTENT).point(1).build()
-        )
-        given(repository.findByInRuleTypeAndTargetId(listOf(RuleType.CONTENT, RuleType.PHOTO), event.reviewId)).willReturn(histories)
+        val histories = mapOf(Pair(RuleType.CONTENT, 1))
+        given(mileageEventHistoryService.getPointsByReviewId(setOf(RuleType.CONTENT, RuleType.PHOTO), event.reviewId)).willReturn(histories)
         val points = mileageRule.calculate(event)
 
         assertThat(points.size).isEqualTo(0)
@@ -83,10 +75,8 @@ internal class MileageRuleModifyTest {
                 .attachedPhotoIds(null)
                 .build()
 
-        val histories = listOf(
-                MileageEventHistory.Builder().ruleType(RuleType.PHOTO).point(1).build()
-        )
-        given(repository.findByInRuleTypeAndTargetId(listOf(RuleType.CONTENT, RuleType.PHOTO), event.reviewId)).willReturn(histories)
+        val histories = emptyMap<RuleType, Int>()
+        given(mileageEventHistoryService.getPointsByReviewId(setOf(RuleType.CONTENT, RuleType.PHOTO), event.reviewId)).willReturn(histories)
         val points = mileageRule.calculate(event)
 
         assertThat(points.size).isEqualTo(0)
