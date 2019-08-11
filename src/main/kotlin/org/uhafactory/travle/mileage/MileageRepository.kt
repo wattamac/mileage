@@ -8,4 +8,7 @@ class MileageRepository {
         return true
     }
 
+    fun applyPoint(userId: String, point: Int) {
+    }
+
 }

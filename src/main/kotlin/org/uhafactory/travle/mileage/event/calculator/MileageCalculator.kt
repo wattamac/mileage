@@ -10,14 +10,12 @@ class MileageCalculator(
 ) {
 
     fun calculate(event: MileageEvent): CalculatedResult {
-
         val points = rules.filter { it.canApply(event) }
                 .map { it.calculate(event) }
                 .flatMap { it.stream().toList() }
                 .toList()
 
-        val result = CalculatedResult(points)
-        return result
+        return CalculatedResult(event, points)
     }
 
 }

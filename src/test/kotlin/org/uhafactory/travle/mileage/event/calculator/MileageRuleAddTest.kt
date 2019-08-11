@@ -10,7 +10,7 @@ import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.uhafactory.travle.mileage.event.Action
 import org.uhafactory.travle.mileage.event.MileageEvent
-import org.uhafactory.travle.mileage.MileageRepository
+import org.uhafactory.travle.mileage.event.MileageEventHistoryService
 
 @ExtendWith(MockitoExtension::class)
 internal class MileageRuleAddTest {
@@ -18,7 +18,7 @@ internal class MileageRuleAddTest {
     private lateinit var rule: MileageRuleAdd
 
     @Mock
-    private lateinit var mileageRepository: MileageRepository
+    private lateinit var mileageEventHistoryService: MileageEventHistoryService
 
     @Test
     fun testCanApply() {
@@ -62,7 +62,7 @@ internal class MileageRuleAddTest {
                 .placeId(placeId)
                 .build()
 
-        given(mileageRepository.isFirstReview(placeId)).willReturn(true)
+        given(mileageEventHistoryService.isFirstReview(placeId)).willReturn(true)
 
         val points = rule.calculate(event)
 

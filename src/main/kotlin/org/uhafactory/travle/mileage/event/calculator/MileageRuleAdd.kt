@@ -5,11 +5,11 @@ import org.springframework.util.CollectionUtils
 import org.springframework.util.StringUtils
 import org.uhafactory.travle.mileage.event.Action
 import org.uhafactory.travle.mileage.event.MileageEvent
-import org.uhafactory.travle.mileage.MileageRepository
+import org.uhafactory.travle.mileage.event.MileageEventHistoryService
 
 @Component
 class MileageRuleAdd : CalculatorRule {
-    private lateinit var mileageRepository: MileageRepository
+    private lateinit var mileageEventHistoryService: MileageEventHistoryService
 
     override fun canApply(event: MileageEvent) = Action.ADD == event.action
 
@@ -22,7 +22,7 @@ class MileageRuleAdd : CalculatorRule {
             result.add(Point(RuleType.PHOTO, 1))
         }
 
-        if (mileageRepository.isFirstReview(event.placeId)) {
+        if (mileageEventHistoryService.isFirstReview(event.placeId)) {
             result.add(Point(RuleType.FIRST_REVIEW, 1))
         }
         return result

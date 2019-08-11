@@ -21,4 +21,12 @@ class MileageEventHistoryService(
                 .fold(0) { sum, element -> sum + element.point }
                 .filter { it.value != 0 }
     }
+
+    fun isFirstReview(placeId: String): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    fun save(toHistory: List<MileageEventHistory>) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }
