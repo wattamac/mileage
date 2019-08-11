@@ -1,7 +1,3 @@
-# mileage
-TABLE
-
-```
 CREATE TABLE Mileage (
            userId VARCHAR(20) NOT NULL PRIMARY KEY,
            point NUMBER(10) NOT NULL,
@@ -24,5 +20,3 @@ CREATE INDEX IDX1_MILEAGE_EVENT_HISTORY ON MileageEventHistory
 
 CREATE INDEX IDX2_MILEAGE_EVENT_HISTORY ON MileageEventHistory
 (placeId);
-
-```

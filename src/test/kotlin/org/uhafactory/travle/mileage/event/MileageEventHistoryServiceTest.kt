@@ -29,7 +29,7 @@ internal class MileageEventHistoryServiceTest {
                 MileageEventHistory.Builder().ruleType(RuleType.CONTENT).point(-2).build(),
                 MileageEventHistory.Builder().ruleType(RuleType.CONTENT).point(2).build()
         )
-        given(repository.findByInRuleTypeAndReviewId(ruleTypes, reviewId))
+        given(repository.findByRuleTypesAndReviewId(ruleTypes, reviewId))
                 .willReturn(histories)
 
         val result = service.getPointsByReviewId(ruleTypes, reviewId)
@@ -42,7 +42,7 @@ internal class MileageEventHistoryServiceTest {
     fun testGetPointsByReviewId_emptyRequest() {
         val result = service.getPointsByReviewId(emptySet(), "reviewId")
 
-        verify(repository, never()).findByInRuleTypeAndReviewId(any(), any())
+        verify(repository, never()).findByRuleTypesAndReviewId(any(), any())
         assertThat(result.size).isEqualTo(0)
     }
 

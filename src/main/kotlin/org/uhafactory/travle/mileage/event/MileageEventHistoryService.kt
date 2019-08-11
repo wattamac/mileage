@@ -15,7 +15,7 @@ class MileageEventHistoryService(
         if(CollectionUtils.isEmpty(ruleTypes) || StringUtils.isEmpty(reviewId)){
             return emptyMap()
         }
-        val histories = mileageEventHistoryRepository.findByInRuleTypeAndReviewId(ruleTypes, reviewId)
+        val histories = mileageEventHistoryRepository.findByRuleTypesAndReviewId(ruleTypes, reviewId)
 
         return histories.groupingBy { it.ruleType }
                 .fold(0) { sum, element -> sum + element.point }
@@ -23,10 +23,12 @@ class MileageEventHistoryService(
     }
 
     fun isFirstReview(placeId: String): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val point = mileageEventHistoryRepository.findFirstReviewPoint(placeId)
+        return point == 0
     }
 
+    @Transactional
     fun save(toHistory: List<MileageEventHistory>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        mileageEventHistoryRepository.saveAll(toHistory)
     }
 }

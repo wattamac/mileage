@@ -3,26 +3,38 @@ package org.uhafactory.travle.mileage.event
 import org.uhafactory.travle.mileage.event.calculator.Point
 import org.uhafactory.travle.mileage.event.calculator.RuleType
 import java.util.*
+import javax.persistence.*
 
+@Entity
+@Table
 data class MileageEventHistory(
-        val id: Long?,
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        val id: Long,
         val reviewId: String,
         val placeId: String,
+        @Enumerated(EnumType.STRING)
         val ruleType: RuleType,
         val point: Int,
         val action: Action,
-        val createdAt: Date?,
+        @Temporal(TemporalType.TIMESTAMP)
+        var createdAt: Date?,
         val userId: String
 ) {
     constructor(event: MileageEvent, point: Point) :
             this(
                     reviewId = event.reviewId, placeId = event.placeId, action = event.action, userId = event.userId,
                     ruleType = point.type, point = point.point,
-                    id = null, createdAt = null
+                    id = 0L, createdAt = null
             )
 
+    @PrePersist
+    fun prePersist() {
+        this.createdAt = Date()
+    }
+
     class Builder {
-        private var id: Long = 1
+        private var id: Long = 0
         private var ruleType = RuleType.CONTENT
         private var reviewId = "reviewId"
         private var placeId = "placeId"

@@ -33,7 +33,6 @@ internal class CalculatedResultTest {
         ).toHistory()
 
         assertThat(result.size).isEqualTo(2)
-        assertThat(result[0].id).isNull()
         assertThat(result[0].reviewId).isEqualTo(reviewId)
         assertThat(result[0].userId).isEqualTo(userId)
         assertThat(result[0].action).isEqualTo(action)

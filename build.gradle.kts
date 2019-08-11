@@ -27,8 +27,10 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
-	implementation("com.mysema.querydsl:querydsl-jpa:3.6.3")
-	kapt("com.mysema.querydsl:querydsl-apt:3.6.3:jpa")
+	implementation("com.querydsl:querydsl-jpa:4.2.1")
+	implementation("com.querydsl:querydsl-sql:4.2.1")
+	kapt("com.querydsl:querydsl-apt:4.2.1:jpa")
+
 	kapt("org.springframework.boot:spring-boot-configuration-processor")
 	compileOnly("org.springframework.boot:spring-boot-configuration-processor")
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
