@@ -1,7 +1,9 @@
 package org.uhafactory.travle.mileage
 
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.ArgumentCaptor
 import org.mockito.ArgumentMatchers
 import org.mockito.BDDMockito.given
 import org.mockito.InjectMocks
@@ -14,6 +16,7 @@ import org.uhafactory.travle.mileage.event.calculator.CalculatedResult
 import org.uhafactory.travle.mileage.event.calculator.MileageCalculator
 import org.uhafactory.travle.mileage.event.calculator.Point
 import org.uhafactory.travle.mileage.event.calculator.RuleType
+import java.util.*
 
 @ExtendWith(MockitoExtension::class)
 internal class MileageServiceTest {
@@ -39,10 +42,16 @@ internal class MileageServiceTest {
 
         val calculatedResult = CalculatedResult(event, listOf(Point(RuleType.FIRST_REVIEW, point)))
         given(calculator.calculate(event)).willReturn(calculatedResult)
-
+        val mileage = Mileage(userId = userId, point = 1)
+        given(mileageRepository.findById(userId)).willReturn(Optional.of(mileage))
         mileageService.applyEvent(event)
 
         verify(mileageEventHistoryService).save(ArgumentMatchers.anyList())
-        verify(mileageRepository).applyPoint(userId, point)
+
+        val argCaptor = ArgumentCaptor.forClass(Mileage::class.java)
+        verify(mileageRepository).save(argCaptor.capture())
+
+        val savedMileage = argCaptor.value
+        assertThat(savedMileage.point).isEqualTo(4)
     }
 }

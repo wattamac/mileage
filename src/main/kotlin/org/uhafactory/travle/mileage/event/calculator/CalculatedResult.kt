@@ -21,6 +21,10 @@ class CalculatedResult(
             MileageEventHistory(target, it)
         }
     }
+
+    fun getUserId(): String {
+        return target.userId
+    }
 }
 
 data class Point(val type: RuleType, val point: Int)

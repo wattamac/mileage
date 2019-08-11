@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.uhafactory.travle.mileage.event.MileageEvent
 import org.uhafactory.travle.mileage.event.MileageEventHistoryService
+import org.uhafactory.travle.mileage.event.calculator.CalculatedResult
 import org.uhafactory.travle.mileage.event.calculator.MileageCalculator
 
 @Service
@@ -22,13 +23,17 @@ class MileageService(
             return
         }
 
-        mileageEventHistoryService.save(calculatedResult.toHistory())
-        mileageRepository.applyPoint(event.userId, calculatedResult.totalPoint())
+        applyMileage(calculatedResult)
         //release
 
     }
 
-//    fun getCurrentMileage(userId: String) {
-//        mileageRepository.findOne(userId)
-//    }
+    private fun applyMileage(calculatedResult: CalculatedResult) {
+        mileageEventHistoryService.save(calculatedResult.toHistory())
+        val mileage = mileageRepository.findById(calculatedResult.getUserId())
+                .orElse(Mileage(userId = calculatedResult.getUserId(), point = 0))
+        mileage.point = mileage.point + calculatedResult.totalPoint()
+        mileageRepository.save(mileage)
+    }
+
 }

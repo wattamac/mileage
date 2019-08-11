@@ -5,12 +5,20 @@ import javax.persistence.*
 
 @Entity
 @Table
-data class UserMileage(
+data class Mileage(
         @Id
         val userId: String,
 
         var point: Int,
 
         @Temporal(TemporalType.TIMESTAMP)
-        var lastUpdatedAt: Date
-)
+        var lastUpdatedAt: Date?
+) {
+    constructor(userId: String, point: Int): this(userId = userId, point = point, lastUpdatedAt = null)
+
+    @PrePersist
+    @PreUpdate
+    fun preUpdate(){
+        this.lastUpdatedAt = Date()
+    }
+}
