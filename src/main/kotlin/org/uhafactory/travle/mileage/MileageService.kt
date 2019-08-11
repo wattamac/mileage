@@ -30,10 +30,14 @@ class MileageService(
 
     private fun applyMileage(calculatedResult: CalculatedResult) {
         mileageEventHistoryService.save(calculatedResult.toHistory())
-        val mileage = mileageRepository.findById(calculatedResult.getUserId())
-                .orElse(Mileage(userId = calculatedResult.getUserId(), point = 0))
+        val mileage = getMileage(calculatedResult.getUserId())
         mileage.point = mileage.point + calculatedResult.totalPoint()
         mileageRepository.save(mileage)
+    }
+
+    fun getMileage(userId: String): Mileage {
+        return mileageRepository.findById(userId)
+                .orElse(Mileage(userId = userId, point = 0))
     }
 
 }

@@ -54,4 +54,26 @@ internal class MileageServiceTest {
         val savedMileage = argCaptor.value
         assertThat(savedMileage.point).isEqualTo(4)
     }
+
+    @Test
+    fun testGetMileage() {
+        val userId = "userId"
+
+        val mileage = Mileage(userId = userId, point = 3)
+        given(mileageRepository.findById(userId)).willReturn(Optional.of(mileage))
+
+        val result = mileageService.getMileage(userId)
+        assertThat(result).isEqualTo(mileage)
+    }
+
+    @Test
+    fun testGetMileage_empty() {
+        val userId = "userId"
+
+        given(mileageRepository.findById(userId)).willReturn(Optional.empty())
+
+        val result = mileageService.getMileage(userId)
+        assertThat(result.userId).isEqualTo(userId)
+        assertThat(result.point).isEqualTo(0)
+    }
 }
